@@ -7,21 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace testMVC.Models
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class DT311_ACode
     {
-        [Key]
         public string CODE_TYPE { get; set; }
-        [Key]
         public string CODE { get; set; }
-        [Required]
         public string CODE_NAME { get; set; }
-        [Required]
         public Nullable<int> CODE_SEQ { get; set; }
     }
 }
