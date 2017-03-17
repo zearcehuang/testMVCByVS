@@ -1,0 +1,52 @@
+﻿using System.Web.Mvc;
+using testMVC.Models;
+
+namespace testMVC.Controllers
+{
+    public class CodeDataController : Controller
+    {
+        /// <summary>
+        /// GET: CodeData/Random
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Random()
+        {
+            var CodeData = new CodeData() { Code_Name = "testCodeData", Code_Type = "A", Code_Seq = 999, Code = "01" };
+            return View(CodeData);
+            //return Content("Hello World");
+            //return HttpNotFound();
+            //return new EmptyResult();
+            //return RedirectToAction("Index", "Home", new { page = 1, sortBy = "name" });
+
+        }
+
+        public ActionResult Edit(int id)
+        {
+            return Content("id=" + id);
+        }
+
+        /// <summary>
+        /// 代碼
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="sortBy"></param>
+        /// <returns></returns>
+        public ActionResult Index(int? pageIndex, string sortBy)
+        {
+            if (!pageIndex.HasValue)
+                pageIndex = 1;
+
+            if (string.IsNullOrEmpty(sortBy))
+                sortBy = "name";
+
+            return Content(string.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
+
+        }
+
+        [Route("/CodeData/code/{codetype}/{codeid:regex(\\d{2}):range{1,98}})")]
+        public ActionResult GetCodeData(string CodeType, string CodeId)
+        {
+            return Content(CodeType + "/" + CodeId);
+        }
+    }
+}
