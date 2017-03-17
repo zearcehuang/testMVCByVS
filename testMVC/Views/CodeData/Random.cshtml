@@ -23,17 +23,17 @@
     <tbody>
         @for (int i = 0; i < Model.Count(); i++)
         {
-            var Item = Model.ToArray()[i];
+            var item = Model.ToArray()[i];
             <tr>
                 <td>
-                    @Html.DisplayFor(modelitem => Item.CODE_TYPE)
+                    @Html.DisplayFor(modelitem => item.CODE_TYPE)
                 </td>
                 <td>
-                    @Html.DisplayTextFor(modelitem => Item.CODE)
+                    @Html.DisplayTextFor(modelitem => item.CODE)
                 </td>
-                <td>@Html.DisplayFor(modelitem => Item.CODE_NAME)</td>
-                <td>@Html.DisplayFor(modelitem => Item.CODE_SEQ)</td>
-                <td>@Html.ActionLink("修改", "Edit", new { id = Item.CODE, codetype = Item.CODE_TYPE })</td>
+                <td>@Html.DisplayFor(modelitem => item.CODE_NAME)</td>
+                <td>@Html.DisplayFor(modelitem => item.CODE_SEQ)</td>
+                <td>@Html.ActionLink("修改", "Edit", new { id = item.CODE, codetype = item.CODE_TYPE })</td>
             </tr>
         }
 
