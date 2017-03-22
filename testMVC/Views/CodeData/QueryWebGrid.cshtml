@@ -1,0 +1,28 @@
+﻿@using WebGridMvc
+@{
+    ViewBag.Title = "代碼查詢";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var grid = new WebGrid(source: Model, rowsPerPage: 10
+        , columnNames: new[] { "CODE_TYPE", "CODE", "CODE_NAME", "CODE_SEQ" }
+        , canSort: false
+        );
+}
+
+<p>
+    @Html.ActionLink("新增", "AddCode")
+</p>
+<div id="gridContent">
+    @grid.GetHtml(tableStyle: "table table-striped table-hover",
+        columns: grid.Columns(
+            grid.Column(columnName: "CODE_TYPE", header: "類別")
+            , grid.Column(columnName: "CODE", header: "代碼")
+            , grid.Column(columnName: "CODE_NAME", header: "名稱")
+            , grid.Column(columnName: "CODE_SEQ", header: "順序")
+            , grid.Column(header: "", format: (item) =>
+            {
+                var link = Html.ActionLink("修改", "Edit", new { id = item.CODE, codetype = item.CODE_TYPE });
+
+                return link;
+            })
+            ))
+</div>

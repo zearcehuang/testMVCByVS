@@ -8,7 +8,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>代碼維護</h4>
         <hr />
@@ -16,6 +16,15 @@
         @Html.HiddenFor(model => model.CODE_TYPE)
 
         @Html.HiddenFor(model => model.CODE)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">代碼類別</label>
+            <div class="col-md-10">
+                @Html.DropDownList("CodeType1", (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;", id = "CodeTypeSelectList" })
+                <p></p>@Html.DropDownList("lstCodeType", null, "請選擇", new { @class = "form-control", style = "width:200px;" })
+                @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">代碼名稱</label>
@@ -35,7 +44,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="儲存" class="btn btn-default" />
             </div>
         </div>
     </div>

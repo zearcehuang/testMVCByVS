@@ -492,6 +492,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:testMVC.Controllers.CodeDataController.QueryWebGrid">
+            <summary>
+            GET: CodeData/QueryWebGrid
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:testMVC.Controllers.CodeDataController.Edit(System.String,System.String)">
             <summary>
             明細
@@ -500,12 +506,17 @@
             <param name="codeType"></param>
             <returns></returns>
         </member>
-        <member name="M:testMVC.Controllers.CodeDataController.Edit(testMVC.Models.DT311_ACode)">
+        <member name="M:testMVC.Controllers.CodeDataController.Edit(System.String,System.String,testMVC.Models.DT311_ACode)">
             <summary>
             修改
             </summary>
             <param name="code"></param>
             <returns></returns>
+        </member>
+        <member name="M:testMVC.Controllers.CodeDataController.getCodeTypeDDL(System.String)">
+            <summary>
+            代碼類別下拉選單
+            </summary>
         </member>
         <member name="T:testMVC.Controllers.ValuesController">
             <summary>
