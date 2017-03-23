@@ -1,10 +1,5 @@
 ﻿@model testMVC.Models.DT311_ACode
 
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -51,12 +46,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="儲存" class="btn btn-default" />
+                <input type="submit" value="儲存" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("回上頁", "QueryWebGrid")
-</div>

@@ -85,9 +85,18 @@ namespace testMVC.Controllers
                 return HttpNotFound();
             }
 
-            getCodeTypeDDL(code.CODE_TYPE);
+            getCodeTypeDDL(code.CODE_TYPE);     //取得下拉選單
 
-            return View(code);
+            //return View(code);                   //回傳包含主頁及該頁的view
+            //return PartialView(code);           //回傳該頁的view
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_Edit",code);
+            }
+            else
+            {
+                return View(code);
+            }
             //return Content(id + "/" + CodeType);
         }
 

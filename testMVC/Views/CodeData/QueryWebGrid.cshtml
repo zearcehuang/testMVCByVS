@@ -7,13 +7,38 @@
     var grid = new WebGrid(source: Model, rowsPerPage: 10
         , columnNames: new[] { "CODE_TYPE_Name", "CODE", "CODE_TYPE", "CODE_NAME", "CODE_SEQ" }
         , canSort: false
-        , ajaxUpdateContainerId:"grdQry"
+        , ajaxUpdateContainerId: "grdQry"
         );
 }
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<script>
+    $(function () {
+        $('.btn.btn-primary').click(function () {
+            $('#OpenDilog').load(this.href, function () {
+                $('#OpenDilog').dialog({
+                    autoOpen: false,
+                    width: 800,
+                    height: 420,
+                    resizable: false,
+                    modal: true,
+                    title: "修改"
+                });
+
+                $(this).dialog('open');
+            });
+            return false;
+        });
+    });
+</script>
 
 <p>
     @Html.ActionLink("新增", "AddCode")
 </p>
+
+<div id="OpenDilog"></div>
+
 <div id="gridContent">
     @grid.GetHtml(tableStyle: "table table-striped table-hover",
         columns: grid.Columns(
@@ -23,7 +48,8 @@
             , grid.Column(columnName: "Code_Seq", header: "順序")
             , grid.Column(header: "", format: (item) =>
             {
-                var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type });
+                //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
+                var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary", id = "btnEdit" });
 
                 return link;
             })
