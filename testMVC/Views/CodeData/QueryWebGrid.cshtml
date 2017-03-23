@@ -9,6 +9,7 @@
         , canSort: false
         , ajaxUpdateContainerId: "grdQry"
         );
+
 }
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
@@ -34,24 +35,51 @@
 </script>
 
 <p>
-    @Html.ActionLink("新增", "AddCode")
+    @Html.ActionLink("新增", "AddCode", null, new { @class = "btn btn-warning" })
 </p>
 
 <div id="OpenDilog"></div>
 
 <div id="gridContent">
-    @grid.GetHtml(tableStyle: "table table-striped table-hover",
-        columns: grid.Columns(
-            grid.Column(columnName: "Code_Type_Name", header: "類別")
-            , grid.Column(columnName: "Code", header: "代碼")
-            , grid.Column(columnName: "Code_Name", header: "名稱")
-            , grid.Column(columnName: "Code_Seq", header: "順序")
-            , grid.Column(header: "", format: (item) =>
-            {
-                //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
-                var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary", id = "btnEdit" });
+    @{
+        int firstRecord = (grid.PageIndex * grid.RowsPerPage) + 1;
+        int lastRecord = (grid.PageIndex * grid.RowsPerPage) + grid.Rows.Count();
 
-                return link;
-            })
-            ))
+    }
+
+    
+    @{
+        var html = grid.GetHtml(tableStyle: "table table-striped table-hover",
+            columns: grid.Columns(
+                grid.Column(columnName: "Code_Type_Name", header: "類別")
+                , grid.Column(columnName: "Code", header: "代碼")
+                , grid.Column(columnName: "Code_Name", header: "名稱")
+                , grid.Column(columnName: "Code_Seq", header: "順序")
+                , grid.Column(header: "", format: (item) =>
+                {
+                        //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
+                        var link = Html.ActionLink("修改視窗", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary", id = "btnEdit" });
+
+                    return link;
+                })
+                , grid.Column(header: "", format: (item) =>
+                {
+                        //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
+                        var link = Html.ActionLink("修改頁面", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-info" });
+
+                    return link;
+                })
+                ), mode: WebGridPagerModes.All,
+            numericLinksCount: 20,
+            firstText: "首頁",
+            previousText: "上一頁",
+            nextText: "下一頁",
+            lastText: "最後頁").ToString();
+
+        var temp = "<tfoot><tr><td></td><td style='color: black;'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td><td></td><td></td><td></td><td";
+        html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
+    }
+    
+    @MvcHtmlString.Create(html)
+
 </div>

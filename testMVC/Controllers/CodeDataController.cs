@@ -62,7 +62,7 @@ namespace testMVC.Controllers
             lst.AddRange(codeDataQry);
 
             return View(lst);
-            //return View(db.DT311_ACode.ToList());
+            //return View(db.DT311_ACode.ToList());     //測試回傳整個ETF物件用
         }
 
         /// <summary>
@@ -90,11 +90,11 @@ namespace testMVC.Controllers
             //return View(code);                   //回傳包含主頁及該頁的view
             //return PartialView(code);           //回傳該頁的view
             if (Request.IsAjaxRequest())
-            {
+            {   //視窗頁
                 return PartialView("_Edit",code);
             }
             else
-            {
+            {       //包含主頁
                 return View(code);
             }
             //return Content(id + "/" + CodeType);

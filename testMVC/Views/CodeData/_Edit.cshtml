@@ -15,8 +15,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CODE_TYPE, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CodeType1", (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;", id = "CodeTypeSelectList" })
-                <p></p>@Html.DropDownList("lstCodeType", null, "請選擇", new { @class = "form-control", style = "width:200px;", disabled = "disabled" })
+                @Html.DropDownList("lstCodeType", null, "請選擇", new { @class = "form-control", style = "width:200px;", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new { @class = "text-danger" })
             </div>
         </div>
