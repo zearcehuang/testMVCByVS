@@ -76,7 +76,7 @@
             nextText: "下一頁",
             lastText: "最後頁").ToString();
 
-        var temp = "<tfoot><tr><td></td><td style='color: black;'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td><td></td><td></td><td></td><td";
+        var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td></td><td";
         html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
     }
     
