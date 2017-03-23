@@ -18,16 +18,23 @@
         @Html.HiddenFor(model => model.CODE)
 
         <div class="form-group">
-            <label class="control-label col-md-2">代碼類別</label>
+            @Html.LabelFor(model => model.CODE_TYPE, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CodeType1", (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;", id = "CodeTypeSelectList" })
-                <p></p>@Html.DropDownList("lstCodeType", null, "請選擇", new { @class = "form-control", style = "width:200px;" })
+                <p></p>@Html.DropDownList("lstCodeType", null, "請選擇", new { @class = "form-control", style = "width:200px;", disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CODE, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">代碼名稱</label>
+            @Html.LabelFor(model => model.CODE_NAME, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CODE_NAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CODE_NAME, "", new { @class = "text-danger" })
@@ -35,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">代碼順序</label>
+            @Html.LabelFor(model => model.CODE_SEQ, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CODE_SEQ, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CODE_SEQ, "", new { @class = "text-danger" })

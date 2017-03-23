@@ -28,7 +28,41 @@ namespace testMVC.Controllers
         /// <returns></returns>
         public ActionResult QueryWebGrid()
         {
-            return View(db.DT311_ACode.ToList());
+            var codeDataQry = (from c in db.DT311_ACode
+                               select new
+                               {
+                                   CODE_TYPE_Name = c.CODE_TYPE == "D"
+                                       ? "請假事由"
+                                       : c.CODE_TYPE == "O"
+                                           ? "加班事由"
+                                           : c.CODE_TYPE == "R"
+                                               ? "出差事由"
+                                               : c.CODE_TYPE == "L"
+                                                   ? "出差地點"
+                                                   : c.CODE_TYPE == "A"
+                                                       ? "出國前往地區"
+                                                       : c.CODE_TYPE == "F"
+                                                           ? "未刷卡趕辦內容"
+                                                           : c.CODE_TYPE == "P" ? "公假/公出地點" : "",
+                                   c.CODE,
+                                   c.CODE_TYPE,
+                                   c.CODE_NAME,
+                                   c.CODE_SEQ
+                               }).OrderBy(x => x.CODE_TYPE).ThenBy(d => d.CODE_SEQ.Value).ToList()
+                                .Select(x => new CodeData()
+                                {
+                                    Code_Type = x.CODE_TYPE,
+                                    Code_Type_Name = x.CODE_TYPE_Name,
+                                    Code = x.CODE,
+                                    Code_Name = x.CODE_NAME,
+                                    Code_Seq = x.CODE_SEQ
+                                });
+
+            List<CodeData> lst=new List<CodeData>();        //為了接收自定查詢欄位用，使用一個model接收然後在前端呈現
+            lst.AddRange(codeDataQry);
+
+            return View(lst);
+            //return View(db.DT311_ACode.ToList());
         }
 
         /// <summary>

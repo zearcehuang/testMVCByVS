@@ -18,7 +18,7 @@ namespace testMVC.Models
         [DisplayName("代碼類別")]
         [StringLength(1)]
         public string CODE_TYPE { get; set; }
-
+        
         [DisplayName("代碼")]
         [Required(ErrorMessage = "代碼不能為空")]
         public string CODE { get; set; }
