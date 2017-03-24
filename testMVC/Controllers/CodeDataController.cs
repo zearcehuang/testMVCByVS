@@ -216,7 +216,16 @@ namespace testMVC.Controllers
         [Route("CodeData/AddCode/")]
         public ActionResult AddCode()
         {
-            getCodeTypeDDL();
+            getCodeTypeDDL();     //取得下拉選單
+            
+            if (Request.IsAjaxRequest())
+            {   //視窗頁
+                return PartialView("_AddCode");
+            }
+            else
+            {       //包含主頁
+                return View();
+            }
 
             return View();
         }

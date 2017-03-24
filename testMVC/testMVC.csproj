@@ -450,6 +450,7 @@
     <Content Include="Views\CodeData\QueryWebGrid.cshtml" />
     <Content Include="Views\CodeData\AddCode.cshtml" />
     <Content Include="Views\CodeData\_Edit.cshtml" />
+    <Content Include="Views\CodeData\_AddCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -16,17 +16,36 @@
 
 <script>
     $(function () {
+        var opt = null;     //視窗參數
+
+        //視窗參數動態
+        function getDialogOpt(strTitle) {
+            opt = {
+                autoOpen: false,
+                width: 800,
+                height: 420,
+                resizable: false,
+                modal: true,
+                title: strTitle
+            }
+        }
+
+        //修改視窗
         $('.btn.btn-primary').click(function () {
             $('#OpenDilog').load(this.href, function () {
-                $('#OpenDilog').dialog({
-                    autoOpen: false,
-                    width: 800,
-                    height: 420,
-                    resizable: false,
-                    modal: true,
-                    title: "修改"
-                });
+                getDialogOpt("修改");
+                $('#OpenDilog').dialog(opt);
+                $(this).dialog('open');
+            });
+            return false;
+        });
 
+        
+        //新增視窗
+        $('#btnAdd').click(function () {
+            $('#OpenDilog').load(this.href, function () {
+                getDialogOpt("新增");
+                $('#OpenDilog').dialog(opt);
                 $(this).dialog('open');
             });
             return false;
@@ -35,8 +54,17 @@
 </script>
 
 <p>
-    @Html.ActionLink("新增", "AddCode", null, new { @class = "btn btn-warning" })
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <td style="width: 1%; white-space: nowrap;">@Html.ActionLink("新增頁面", "AddCode", null, new { @class = "btn btn-warning" })</td>
+                <td>@Html.ActionLink("新增視窗", "AddCode", null, new { @class = "btn btn-warning", id = "btnAdd" })</td>
+            </tr>
+        </thead>
+    </table>
 </p>
+
 
 <div id="OpenDilog"></div>
 
@@ -47,7 +75,7 @@
 
     }
 
-    
+
     @{
         var html = grid.GetHtml(tableStyle: "table table-striped table-hover",
             columns: grid.Columns(
@@ -79,7 +107,7 @@
         var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td></td><td";
         html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
     }
-    
+
     @MvcHtmlString.Create(html)
 
 </div>
