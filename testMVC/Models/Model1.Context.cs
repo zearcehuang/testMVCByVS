@@ -9,9 +9,10 @@
 
 namespace testMVC.Models
 {
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class TPDBtestEntities : DbContext
     {
         public TPDBtestEntities()
@@ -25,5 +26,6 @@ namespace testMVC.Models
         }
     
         public virtual DbSet<DT311_ACode> DT311_ACode { get; set; }
+        public virtual DbSet<DT311_AStaffType> DT311_AStaffType { get; set; }
     }
 }

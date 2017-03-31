@@ -28,7 +28,8 @@ namespace testMVC.Controllers
         /// <returns></returns>
         public ActionResult QueryWebGrid()
         {
-            var codeDataQry = (from c in db.DT311_ACode
+
+            var codeDataQry = (from c in db.DT311_ACode.AsQueryable()
                                select new
                                {
                                    CODE_TYPE_Name = c.CODE_TYPE == "D"
@@ -58,7 +59,7 @@ namespace testMVC.Controllers
                                     Code_Seq = x.CODE_SEQ
                                 });
 
-            List<CodeData> lst=new List<CodeData>();        //為了接收自定查詢欄位用，使用一個model接收然後在前端呈現
+            List<CodeData> lst = new List<CodeData>();        //為了接收自定查詢欄位用，使用一個model接收然後在前端呈現
             lst.AddRange(codeDataQry);
 
             return View(lst);
@@ -67,6 +68,8 @@ namespace testMVC.Controllers
 
         /// <summary>
         /// 明細
+        /// 備註：get的route可不設，如果要設，則有post也須設定，才不會找不到相同預設路徑
+        /// 備註：Entity宣告的名稱不可與該Entity欄位名稱一樣，否則會導致Entity binding錯誤
         /// </summary>
         /// <param name="id"></param>
         /// <param name="codeType"></param>
@@ -91,7 +94,7 @@ namespace testMVC.Controllers
             //return PartialView(code);           //回傳該頁的view
             if (Request.IsAjaxRequest())
             {   //視窗頁
-                return PartialView("_Edit",code);
+                return PartialView("_Edit", code);
             }
             else
             {       //包含主頁
@@ -100,64 +103,10 @@ namespace testMVC.Controllers
             //return Content(id + "/" + CodeType);
         }
 
-        /// <summary>
-        /// 修改
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        //[HttpPost, ActionName("Edit")]
-        //[ValidateAntiForgeryToken]
-        //[Route("CodeData/Edit/{id}/{codetype}")]
-        //public ActionResult Edit([Bind(Include = "CODE_TYPE,CODE,CODE_NAME, CODE_SEQ")]DT311_ACode code)
-        //{
-        //    var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
-        //                        .Select(x => new { x.Key, x.Value.Errors })
-        //                        .ToArray();
-
-        //    if (ModelState.IsValid && TryUpdateModel(code))
-        //    {
-        //        try
-        //        {
-        //            db.Entry(code).State = EntityState.Modified;
-        //            db.SaveChanges();
-        //            return RedirectToAction("Random");
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            ModelState.AddModelError("", "儲存失敗" + Environment.NewLine + e.ToString());
-        //        }
-        //        return View(code);
-        //    }
-        //    else
-        //    {
-        //        StringBuilder strError = new StringBuilder();
-        //        strError.Length = 0;
-        //        if (errors.Length > 0)
-        //        {
-        //            foreach (var error in errors)
-        //            {
-        //                if (error.Errors.Count > 0)
-        //                {
-        //                    foreach (var erroritem in error.Errors)
-        //                    {
-        //                        strError.AppendLine(erroritem.Exception.ToString());
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //        ModelState.AddModelError("Edit", "ErrorMessage");
-
-        //        return Content(strError.ToString().Trim());
-        //    }
-
-        //}
-
-
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         [Route("CodeData/Edit/{id}/{codetype}")]
-        public ActionResult Edit(string id, string codeType, [Bind(Include = "CODE_NAME, CODE_SEQ")] DT311_ACode code)
+        public ActionResult Edit(string id, string codeType, DT311_ACode Acode)
         {
             var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
                                 .Select(x => new { x.Key, x.Value.Errors })
@@ -168,25 +117,27 @@ namespace testMVC.Controllers
             if (string.IsNullOrEmpty(codeType))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            //var _orginCode = (from p in db.DT311_ACode
-            //                  where p.CODE == codeType
-            //                        && p.CODE == id
-            //                  select p).FirstOrDefaultAsync();
-            var _orginCode = db.DT311_ACode.Find(codeType, id);
+            var _orginCode = (from p in db.DT311_ACode.AsQueryable()
+                              where p.CODE == codeType
+                                    && p.CODE == id
+                              select p).FirstOrDefaultAsync();
+            //以下方式儲存會失敗，似乎即時查詢追蹤導致錯誤
+            //var _orginCode = db.DT311_ACode.Find(codeType, id);
 
             if (ModelState.IsValid && TryUpdateModel(_orginCode, new string[] { "CODE_NAME", "CODE_SEQ" }))
             {
                 try
                 {
-                    db.Entry(code).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Random");
+                    db.Entry(Acode).State = EntityState.Modified;
+                    int intSuccess = db.SaveChanges();
+                    //return RedirectToAction("Random");
                 }
                 catch (Exception e)
                 {
                     ModelState.AddModelError("", "儲存失敗" + Environment.NewLine + e.ToString());
                 }
-                return View(code);
+                getCodeTypeDDL();
+                return View(Acode);
             }
             else
             {
@@ -206,18 +157,23 @@ namespace testMVC.Controllers
                     }
                 }
 
-                ModelState.AddModelError("Edit", "ErrorMessage");
+                ModelState.AddModelError("Edit", "ErrorMessage" + Environment.NewLine + strError.ToString().Trim());
 
-                return Content(strError.ToString().Trim());
+                //return Content(strError.ToString().Trim());
+                return View();
             }
 
         }
 
+        /// <summary>
+        /// 新增頁
+        /// </summary>
+        /// <returns></returns>
         [Route("CodeData/AddCode/")]
         public ActionResult AddCode()
         {
             getCodeTypeDDL();     //取得下拉選單
-            
+
             if (Request.IsAjaxRequest())
             {   //視窗頁
                 return PartialView("_AddCode");
@@ -227,14 +183,17 @@ namespace testMVC.Controllers
                 return View();
             }
 
-            return View();
         }
 
-
+        /// <summary>
+        /// 新增頁儲存
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("AddCode")]
         [ValidateAntiForgeryToken]
         [Route("CodeData/AddCode/")]
-        public ActionResult AddCode([Bind(Include = "CODE_TYPE,CODE,CODE_NAME, CODE_SEQ")] DT311_ACode code)
+        public ActionResult AddCode(DT311_ACode Acode)
         {
             var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
                                 .Select(x => new { x.Key, x.Value.Errors })
@@ -244,7 +203,7 @@ namespace testMVC.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    db.DT311_ACode.Add(code);
+                    db.DT311_ACode.Add(Acode);
                     db.SaveChanges();
                     return RedirectToAction("QueryWebGrid");
                 }
@@ -274,7 +233,7 @@ namespace testMVC.Controllers
                 ModelState.AddModelError("", "新增失敗" + Environment.NewLine + e.ToString());
             }
 
-            return View(code);
+            return View(Acode);
         }
 
         /// <summary>

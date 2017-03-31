@@ -1,8 +1,9 @@
 ﻿@model testMVC.Models.DT311_ACode
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?" }))
 {
     @Html.AntiForgeryToken()
+    Html.EnableClientValidation();
 
     <div class="form-horizontal">
         <h4>代碼維護</h4>

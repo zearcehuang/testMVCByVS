@@ -5,9 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm())
+<script type="text/javascript" language="javascript">
+    function SaveSuccess() {
+        alert("儲存成功！");
+    }
+</script>
+
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?", OnSuccess = "SaveSuccess()"}))
 {
     @Html.AntiForgeryToken()
+    Html.EnableClientValidation();
 
     <div class="form-horizontal">
         <h4>代碼維護</h4>

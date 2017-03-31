@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="5ccbbc0c39ae4d039c9989bc67e1fe04" Name="Diagram1">
         <EntityTypeShape EntityType="TPDBtestModel.DT311_ACode" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TPDBtestModel.DT311_AStaffType" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

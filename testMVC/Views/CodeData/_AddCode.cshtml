@@ -1,14 +1,14 @@
 ﻿@model testMVC.Models.DT311_ACode
 
-<script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
 
-<h2>代碼新增</h2>
+<h4>代碼新增</h4>
+<hr/>
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確認新增?" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+   Html.EnableClientValidation();
 
     <table class="table table-striped table-hover">
         <tbody>
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td colspan="4" style="text-align: center">
-                    <input type="submit" value="新增" class="btn btn-default" />
+                    <input type="submit" value="儲存" class="btn btn-success" />
                 </td>
             </tr>
         </tbody>

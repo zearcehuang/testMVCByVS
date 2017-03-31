@@ -18,6 +18,7 @@ namespace testMVC
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
                         "~/Scripts/jquery.unobtrusive-ajax*"));
+            //1060328增加jquery-ui
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-1.12.1*"));
 
@@ -30,9 +31,11 @@ namespace testMVC
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            //1060328增加jquery-ui用的css
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-united.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/themes/base/jquery-ui.min.css"));
         }
     }
 }

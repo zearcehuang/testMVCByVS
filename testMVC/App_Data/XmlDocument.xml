@@ -501,14 +501,22 @@
         <member name="M:testMVC.Controllers.CodeDataController.Edit(System.String,System.String)">
             <summary>
             明細
+            備註：get的route可不設，如果要設，則有post也須設定，才不會找不到相同預設路徑
+            備註：Entity宣告的名稱不可與該Entity欄位名稱一樣，否則會導致Entity binding錯誤
             </summary>
             <param name="id"></param>
             <param name="codeType"></param>
             <returns></returns>
         </member>
-        <member name="M:testMVC.Controllers.CodeDataController.Edit(System.String,System.String,testMVC.Models.DT311_ACode)">
+        <member name="M:testMVC.Controllers.CodeDataController.AddCode">
             <summary>
-            修改
+            新增頁
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:testMVC.Controllers.CodeDataController.AddCode(testMVC.Models.DT311_ACode)">
+            <summary>
+            新增頁儲存
             </summary>
             <param name="code"></param>
             <returns></returns>

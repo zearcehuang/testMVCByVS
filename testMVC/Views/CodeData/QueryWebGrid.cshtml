@@ -12,21 +12,38 @@
 
 }
 
-<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<style type="text/css">
+    .column1Width {
+        width: 30%;
+    }
+
+    .column3Width {
+        width: 50%;
+    }
+</style>
 
 <script>
+    $.ajaxSetup({ cache: false });  //要加這段ie的dialog才不會暫存
+
     $(function () {
         var opt = null;     //視窗參數
 
         //視窗參數動態
-        function getDialogOpt(strTitle) {
+        function getDialogOpt(strTitle, intWidth, intHeight) {
+            intWidth = (typeof (intWidth) === 'undefined') ? 800 : intWidth;
+            intHeight = (typeof (intHeight) === 'undefined') ? 420 : intHeight;
+
             opt = {
                 autoOpen: false,
-                width: 800,
-                height: 420,
+                width: intWidth,
+                height: intHeight,
                 resizable: false,
                 modal: true,
-                title: strTitle
+                title: strTitle,
+                close: function (event, ui) {
+                    $('#OpenDilog').empty();        //要加這段ie的dialog才不會暫存
+                    $(this).dialog('destroy');          //要加這段ie的dialog才不會暫存
+                }
             }
         }
 
@@ -40,7 +57,7 @@
             return false;
         });
 
-        
+
         //新增視窗
         $('#btnAdd').click(function () {
             $('#OpenDilog').load(this.href, function () {
@@ -79,9 +96,9 @@
     @{
         var html = grid.GetHtml(tableStyle: "table table-striped table-hover",
             columns: grid.Columns(
-                grid.Column(columnName: "Code_Type_Name", header: "類別")
+                grid.Column(columnName: "Code_Type_Name", header: "類別", style: "column1Width")
                 , grid.Column(columnName: "Code", header: "代碼")
-                , grid.Column(columnName: "Code_Name", header: "名稱")
+                , grid.Column(columnName: "Code_Name", header: "名稱", style: "column1Width")
                 , grid.Column(columnName: "Code_Seq", header: "順序")
                 , grid.Column(header: "", format: (item) =>
                 {
@@ -100,9 +117,9 @@
                 ), mode: WebGridPagerModes.All,
             numericLinksCount: 20,
             firstText: "首頁",
-            previousText: "上一頁",
-            nextText: "下一頁",
-            lastText: "最後頁").ToString();
+            previousText: "上頁",
+            nextText: "下頁",
+            lastText: "頁尾").ToString();
 
         var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td></td><td";
         html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
