@@ -6,13 +6,16 @@
 }
 
 <script type="text/javascript" language="javascript">
-    function SaveSuccess() {
-        alert("儲存成功！");
+    function SaveSuccess(data) {
+        alert(data.MessageAlert);
+        if (data.success){
+            location.reload();
+        }
     }
 </script>
 
 
-@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?", OnSuccess = "SaveSuccess()"}))
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?", OnSuccess = "SaveSuccess(data);" }))
 {
     @Html.AntiForgeryToken()
     Html.EnableClientValidation();
@@ -59,7 +62,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="儲存" class="btn btn-default" />
+                <input type="submit" value="儲存" class="btn btn-success" />
             </div>
         </div>
     </div>

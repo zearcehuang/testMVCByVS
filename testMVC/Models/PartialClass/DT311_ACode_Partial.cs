@@ -23,8 +23,9 @@ namespace testMVC.Models
             public string CODE_NAME { get; set; }
 
             [DisplayName("順序")]
+            [Required(ErrorMessage = "順序不能為空")]
             [Range(1, 99)]
-            [RegularExpression(@"^[1-9]d*$", ErrorMessage = "請輸入正整數")]
+            [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "請輸入正整數")]
             public Nullable<int> CODE_SEQ { get; set; }
         }
     }

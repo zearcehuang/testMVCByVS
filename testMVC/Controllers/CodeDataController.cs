@@ -117,11 +117,16 @@ namespace testMVC.Controllers
             if (string.IsNullOrEmpty(codeType))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var _orginCode = (from p in db.DT311_ACode.AsQueryable()
-                              where p.CODE == codeType
-                                    && p.CODE == id
-                              select p).FirstOrDefaultAsync();
+            //此方法好像存檔太快會一直跳出要等非同步資料完成
+            //var _orginCode = (from p in db.DT311_ACode.AsQueryable()
+            //                  where p.CODE == codeType
+            //                        && p.CODE == id
+            //                  select p).FirstOrDefaultAsync();
+
+            var _orginCode = db.DT311_ACode.AsQueryable().Where(a => a.CODE_TYPE == codeType && a.CODE == id);
+            
             //以下方式儲存會失敗，似乎即時查詢追蹤導致錯誤
+
             //var _orginCode = db.DT311_ACode.Find(codeType, id);
 
             if (ModelState.IsValid && TryUpdateModel(_orginCode, new string[] { "CODE_NAME", "CODE_SEQ" }))
@@ -130,14 +135,15 @@ namespace testMVC.Controllers
                 {
                     db.Entry(Acode).State = EntityState.Modified;
                     int intSuccess = db.SaveChanges();
-                    //return RedirectToAction("Random");
                 }
                 catch (Exception e)
                 {
                     ModelState.AddModelError("", "儲存失敗" + Environment.NewLine + e.ToString());
+                    return Json(new { success = false, MessageAlert = "儲存失敗!" + Environment.NewLine + e.ToString() });
                 }
                 getCodeTypeDDL();
-                return View(Acode);
+                //return View(Acode);
+                return Json(new { success = true, MessageAlert = "儲存成功!" });
             }
             else
             {
@@ -151,7 +157,14 @@ namespace testMVC.Controllers
                         {
                             foreach (var erroritem in error.Errors)
                             {
-                                strError.AppendLine(erroritem.Exception.ToString());
+                                if (!string.IsNullOrEmpty(erroritem.ErrorMessage.ToString()))
+                                {
+                                    strError.AppendLine(erroritem.ErrorMessage.ToString());
+                                }
+                                else
+                                {
+                                    strError.AppendLine(erroritem.Exception.ToString());
+                                }
                             }
                         }
                     }
@@ -160,7 +173,7 @@ namespace testMVC.Controllers
                 ModelState.AddModelError("Edit", "ErrorMessage" + Environment.NewLine + strError.ToString().Trim());
 
                 //return Content(strError.ToString().Trim());
-                return View();
+                return Json(new { success = false, MessageAlert = "儲存失敗!" + Environment.NewLine + strError.ToString().Trim() });
             }
 
         }

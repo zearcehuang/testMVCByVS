@@ -1,6 +1,16 @@
 ﻿@model testMVC.Models.DT311_ACode
 
-@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?" }))
+<script type="text/javascript" language="javascript">
+    function SaveSuccess(data) {
+        alert(data.MessageAlert);
+        if (data.success){
+            location.reload();
+        }
+    }
+</script>
+
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?", OnSuccess = "SaveSuccess(data);" }))
 {
     @Html.AntiForgeryToken()
     Html.EnableClientValidation();
