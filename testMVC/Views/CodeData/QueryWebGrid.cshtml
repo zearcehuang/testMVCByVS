@@ -123,8 +123,7 @@
                 })
                 , grid.Column(header: "", format: (item) =>
                 {
-                        //var link = Html.ActionLink("刪除", null, new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-danger", onclick = "DeleteData(" + item.Code + "," + item.Code_Type + ")", id = "btnDelete" });
-                        var link = Ajax.ActionLink("刪除", "Delete", "CodeData", new { id = item.Code, codetype = item.Code_Type }, new AjaxOptions() { HttpMethod = "POST", Confirm = "確定要刪除嗎?", OnSuccess = "SaveSuccess(data);" }, new { @class = "btn btn-danger", id = "btnDelete" });
+                    var link = Ajax.ActionLink("刪除", "Delete", "CodeData", new { id = item.Code, codetype = item.Code_Type }, new AjaxOptions() { HttpMethod = "POST", Confirm = "確定要刪除嗎?", OnSuccess = "SaveSuccess(data);" }, new { @class = "btn btn-default", id = "btnDelete" });
 
                     return link;
                 })
@@ -135,7 +134,7 @@
             nextText: "下頁",
             lastText: "頁尾").ToString();
 
-        var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>Records " + firstRecord + " to " + lastRecord + " of " + grid.TotalRowCount + "</td></td><td";
+        var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>第 " + firstRecord + " 筆到第 " + lastRecord + " 筆，共 " + grid.TotalRowCount + "筆 </td></td><td";
         html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
     }
 
