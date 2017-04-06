@@ -8,8 +8,17 @@
 
 <h2>代碼新增</h2>
 
-@*@using (Ajax.BeginForm(new AjaxOptions {HttpMethod = "POST",Confirm = "確認新增?"}))*@
-@using (Html.BeginForm(FormMethod.Post))
+<script type="text/javascript" language="javascript">
+    function SaveSuccess(data) {
+        alert(data.MessageAlert);
+        if (data.success) {
+            location.reload();
+        }
+    }
+</script>
+
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定新增?", OnSuccess = "SaveSuccess(data);" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -22,9 +31,9 @@
                     @Html.LabelFor(model => model.CODE_TYPE, new { @class = "control-label col-md-2" })
                 </td>
                 <td>
-                    @*@Html.DropDownList("lstCodeType", (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;" })*@
-                    @Html.EditorFor(model => model.CODE_TYPE, new { htmlAttributes = new { @class = "form-control", style = "width:40px", maxlength = "2" } })
-                    @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new { @class = "text-danger" })
+                    @* 這是抓固定值不會回傳，回傳儲存要用下面for @Html.DropDownList("lstCodeType", (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;" })*@
+                    @Html.DropDownListFor(model => model.CODE_TYPE, (SelectList) ViewBag.lstCodeType, "請選擇", new {@class = "form-control", style = "width:200px;"})
+                    @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new {@class = "text-danger"})
                 </td>
                 <td style="white-space: nowrap; width: 1%;">
                     @Html.LabelFor(model => model.CODE, new { @class = "control-label col-md-2" })

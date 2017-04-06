@@ -518,7 +518,7 @@
             <summary>
             新增頁儲存
             </summary>
-            <param name="code"></param>
+            <param name="Acode"></param>
             <returns></returns>
         </member>
         <member name="M:testMVC.Controllers.CodeDataController.getCodeTypeDDL(System.String)">

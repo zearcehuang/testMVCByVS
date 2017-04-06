@@ -124,7 +124,7 @@ namespace testMVC.Controllers
             //                  select p).FirstOrDefaultAsync();
 
             var _orginCode = db.DT311_ACode.AsQueryable().Where(a => a.CODE_TYPE == codeType && a.CODE == id);
-            
+
             //以下方式儲存會失敗，似乎即時查詢追蹤導致錯誤
 
             //var _orginCode = db.DT311_ACode.Find(codeType, id);
@@ -157,14 +157,9 @@ namespace testMVC.Controllers
                         {
                             foreach (var erroritem in error.Errors)
                             {
-                                if (!string.IsNullOrEmpty(erroritem.ErrorMessage.ToString()))
-                                {
-                                    strError.AppendLine(erroritem.ErrorMessage.ToString());
-                                }
-                                else
-                                {
-                                    strError.AppendLine(erroritem.Exception.ToString());
-                                }
+                                strError.AppendLine(!string.IsNullOrEmpty(erroritem.ErrorMessage.ToString())
+                                    ? erroritem.ErrorMessage.ToString()
+                                    : erroritem.Exception.ToString());
                             }
                         }
                     }
@@ -201,7 +196,7 @@ namespace testMVC.Controllers
         /// <summary>
         /// 新增頁儲存
         /// </summary>
-        /// <param name="code"></param>
+        /// <param name="Acode"></param>
         /// <returns></returns>
         [HttpPost, ActionName("AddCode")]
         [ValidateAntiForgeryToken]
@@ -211,14 +206,22 @@ namespace testMVC.Controllers
             var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
                                 .Select(x => new { x.Key, x.Value.Errors })
                                 .ToArray();
-
+            
             try
             {
+                var _orginCode = db.DT311_ACode.AsQueryable().Where(a => a.CODE_TYPE == Acode.CODE_TYPE && a.CODE == Acode.CODE);
+                getCodeTypeDDL();
+
+                if (_orginCode.Count() > 0)
+                    return Json(new { success = false, MessageAlert = "儲存失敗!" + Environment.NewLine + "已有該代碼資料!" });
+
                 if (ModelState.IsValid)
                 {
                     db.DT311_ACode.Add(Acode);
                     db.SaveChanges();
-                    return RedirectToAction("QueryWebGrid");
+                    //return RedirectToAction("QueryWebGrid");
+
+                    return Json(new { success = true, MessageAlert = "儲存成功!" });
                 }
                 else
                 {
@@ -232,21 +235,27 @@ namespace testMVC.Controllers
                             {
                                 foreach (var erroritem in error.Errors)
                                 {
-                                    strError.Append(erroritem.Exception.ToString() + "\n");
+                                    strError.AppendLine(!string.IsNullOrEmpty(erroritem.ErrorMessage.ToString())
+                                    ? erroritem.ErrorMessage.ToString()
+                                    : erroritem.Exception.ToString());
                                 }
                             }
                         }
                     }
 
                     ModelState.AddModelError("Add", "新增失敗" + Environment.NewLine + strError.ToString());
+                    return Json(new { success = false, MessageAlert = "新增失敗!" + Environment.NewLine + strError.ToString() });
                 }
             }
+
+
             catch (Exception e)
             {
                 ModelState.AddModelError("", "新增失敗" + Environment.NewLine + e.ToString());
+                return Json(new { success = false, MessageAlert = "新增失敗!" + Environment.NewLine + e.ToString() });
             }
 
-            return View(Acode);
+
         }
 
         /// <summary>

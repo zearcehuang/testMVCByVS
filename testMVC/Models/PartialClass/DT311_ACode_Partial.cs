@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace testMVC.Models
@@ -11,6 +10,7 @@ namespace testMVC.Models
         sealed class DT311_ACode_MetaData
         {
             [DisplayName("代碼類別")]
+            [Required(ErrorMessage = "代碼類別不能為空")]
             [StringLength(1)]
             public string CODE_TYPE { get; set; }
 
@@ -26,7 +26,7 @@ namespace testMVC.Models
             [Required(ErrorMessage = "順序不能為空")]
             [Range(1, 99)]
             [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "請輸入正整數")]
-            public Nullable<int> CODE_SEQ { get; set; }
+            public int? CODE_SEQ { get; set; }
         }
     }
 }

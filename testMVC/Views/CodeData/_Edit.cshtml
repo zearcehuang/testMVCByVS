@@ -9,6 +9,9 @@
     }
 </script>
 
+<!--ajax validate 驗證用-->
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", Confirm = "確定修改?", OnSuccess = "SaveSuccess(data);" }))
 {
