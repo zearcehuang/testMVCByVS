@@ -68,6 +68,13 @@
             return false;
         });
     });
+
+    function SaveSuccess(data) {
+        alert(data.MessageAlert);
+        if (data.success) {
+            location.reload();
+        }
+    }
 </script>
 
 <p>
@@ -111,6 +118,13 @@
                 {
                         //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
                         var link = Html.ActionLink("修改頁面", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-info" });
+
+                    return link;
+                })
+                , grid.Column(header: "", format: (item) =>
+                {
+                        //var link = Html.ActionLink("刪除", null, new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-danger", onclick = "DeleteData(" + item.Code + "," + item.Code_Type + ")", id = "btnDelete" });
+                        var link = Ajax.ActionLink("刪除", "Delete", "CodeData", new { id = item.Code, codetype = item.Code_Type }, new AjaxOptions() { HttpMethod = "POST", Confirm = "確定要刪除嗎?", OnSuccess = "SaveSuccess(data);" }, new { @class = "btn btn-danger", id = "btnDelete" });
 
                     return link;
                 })

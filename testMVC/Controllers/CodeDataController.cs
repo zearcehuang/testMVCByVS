@@ -206,7 +206,7 @@ namespace testMVC.Controllers
             var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
                                 .Select(x => new { x.Key, x.Value.Errors })
                                 .ToArray();
-            
+
             try
             {
                 var _orginCode = db.DT311_ACode.AsQueryable().Where(a => a.CODE_TYPE == Acode.CODE_TYPE && a.CODE == Acode.CODE);
@@ -282,5 +282,40 @@ namespace testMVC.Controllers
 
         }
 
+        
+        /// <summary>
+        /// 刪除
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("Delete")]
+        public ActionResult Delete(string id, string codeType)
+        {
+            var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
+                                .Select(x => new { x.Key, x.Value.Errors })
+                                .ToArray();
+
+            if (string.IsNullOrEmpty(id))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (string.IsNullOrEmpty(codeType))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            try
+            {
+                DT311_ACode Acode = db.DT311_ACode.AsQueryable().Where(x => x.CODE_TYPE == codeType && x.CODE == id).FirstOrDefault();
+
+                if (Acode == null)
+                {
+                    return Json(new { success = false, MessageAlert = "刪除失敗!" + Environment.NewLine + "無可刪除之資料！" });
+                }
+                db.DT311_ACode.Remove(Acode);
+                int intSuccess = db.SaveChanges();
+
+                return intSuccess > 0 ? Json(new { success = true, MessageAlert = "刪除成功!" }) : Json(new { success = true, MessageAlert = "刪除失敗!無可刪除資料!" });
+            }
+            catch (Exception e)
+            {
+                return Json(new { success = true, MessageAlert = "刪除失敗!" + Environment.NewLine + e.ToString() });
+            }
+        }
     }
 }

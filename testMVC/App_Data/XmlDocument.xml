@@ -526,6 +526,12 @@
             代碼類別下拉選單
             </summary>
         </member>
+        <member name="M:testMVC.Controllers.CodeDataController.Delete(System.String,System.String)">
+            <summary>
+            刪除
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:testMVC.Controllers.ValuesController">
             <summary>
             Values 控制器
