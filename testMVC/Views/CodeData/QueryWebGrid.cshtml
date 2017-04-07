@@ -67,6 +67,16 @@
             });
             return false;
         });
+
+        //新增視窗
+        $('#btnQry').click(function () {
+            $('#OpenDilog').load(this.href, function () {
+                getDialogOpt("查詢");
+                $('#OpenDilog').dialog(opt);
+                $(this).dialog('open');
+            });
+            return false;
+        });
     });
 
     function SaveSuccess(data) {
@@ -84,6 +94,7 @@
             <tr>
                 <td style="width: 1%; white-space: nowrap;">@Html.ActionLink("新增頁面", "AddCode", null, new { @class = "btn btn-warning" })</td>
                 <td>@Html.ActionLink("新增視窗", "AddCode", null, new { @class = "btn btn-warning", id = "btnAdd" })</td>
+                <td style="text-align: right">@Html.ActionLink("查詢", "QueryCondition", null, new { @class = "btn btn-success", id = "btnQry" })</td>
             </tr>
         </thead>
     </table>
@@ -96,28 +107,22 @@
     @{
         int firstRecord = (grid.PageIndex * grid.RowsPerPage) + 1;
         int lastRecord = (grid.PageIndex * grid.RowsPerPage) + grid.Rows.Count();
-
     }
-
 
     @{
         var html = grid.GetHtml(tableStyle: "table table-striped table-hover",
             columns: grid.Columns(
-                grid.Column(columnName: "Code_Type_Name", header: "類別", style: "column1Width")
-                , grid.Column(columnName: "Code", header: "代碼")
-                , grid.Column(columnName: "Code_Name", header: "名稱", style: "column1Width")
-                , grid.Column(columnName: "Code_Seq", header: "順序")
-                , grid.Column(header: "", format: (item) =>
+                grid.Column(header: "", format: (item) =>
                 {
-                        //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
-                        var link = Html.ActionLink("修改視窗", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary", id = "btnEdit" });
+                    //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
+                    var link = Html.ActionLink("修改視窗", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary", id = "btnEdit" });
 
                     return link;
                 })
                 , grid.Column(header: "", format: (item) =>
                 {
-                        //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
-                        var link = Html.ActionLink("修改頁面", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-info" });
+                    //var link = Html.ActionLink("修改", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-primary" });
+                    var link = Html.ActionLink("修改頁面", "Edit", new { id = item.Code, codetype = item.Code_Type }, new { @class = "btn btn-info" });
 
                     return link;
                 })
@@ -127,6 +132,11 @@
 
                     return link;
                 })
+                ,grid.Column(columnName: "Code_Type_Name", header: "類別", style: "column1Width")
+                , grid.Column(columnName: "Code", header: "代碼")
+                , grid.Column(columnName: "Code_Name", header: "名稱", style: "column1Width")
+                , grid.Column(columnName: "Code_Seq", header: "順序")
+
                 ), mode: WebGridPagerModes.All,
             numericLinksCount: 20,
             firstText: "首頁",

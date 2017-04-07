@@ -26,43 +26,15 @@ namespace testMVC.Controllers
         /// GET: CodeData/QueryWebGrid
         /// </summary>
         /// <returns></returns>
-        public ActionResult QueryWebGrid()
+        public ActionResult QueryWebGrid(DT311_ACode Acode)
         {
-
-            var codeDataQry = (from c in db.DT311_ACode.AsQueryable()
-                               select new
-                               {
-                                   CODE_TYPE_Name = c.CODE_TYPE == "D"
-                                       ? "請假事由"
-                                       : c.CODE_TYPE == "O"
-                                           ? "加班事由"
-                                           : c.CODE_TYPE == "R"
-                                               ? "出差事由"
-                                               : c.CODE_TYPE == "L"
-                                                   ? "出差地點"
-                                                   : c.CODE_TYPE == "A"
-                                                       ? "出國前往地區"
-                                                       : c.CODE_TYPE == "F"
-                                                           ? "未刷卡趕辦內容"
-                                                           : c.CODE_TYPE == "P" ? "公假/公出地點" : "",
-                                   c.CODE,
-                                   c.CODE_TYPE,
-                                   c.CODE_NAME,
-                                   c.CODE_SEQ
-                               }).OrderBy(x => x.CODE_TYPE).ThenBy(d => d.CODE_SEQ.Value).ToList()
-                                .Select(x => new CodeData()
-                                {
-                                    Code_Type = x.CODE_TYPE,
-                                    Code_Type_Name = x.CODE_TYPE_Name,
-                                    Code = x.CODE,
-                                    Code_Name = x.CODE_NAME,
-                                    Code_Seq = x.CODE_SEQ
-                                });
+            var codeDataQry = getData(Acode);
+            Session["QryCondition"] = Acode;        //暫存查詢條件
 
             List<CodeData> lst = new List<CodeData>();        //為了接收自定查詢欄位用，使用一個model接收然後在前端呈現
             lst.AddRange(codeDataQry);
 
-            return View(lst);
+            return View("QueryWebGrid", lst);
             //return View(db.DT311_ACode.ToList());     //測試回傳整個ETF物件用
         }
 
@@ -103,6 +75,13 @@ namespace testMVC.Controllers
             //return Content(id + "/" + CodeType);
         }
 
+        /// <summary>
+        /// 修改頁儲存
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="codeType"></param>
+        /// <param name="Acode"></param>
+        /// <returns></returns>
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         [Route("CodeData/Edit/{id}/{codetype}")]
@@ -282,7 +261,7 @@ namespace testMVC.Controllers
 
         }
 
-        
+
         /// <summary>
         /// 刪除
         /// </summary>
@@ -316,6 +295,72 @@ namespace testMVC.Controllers
             {
                 return Json(new { success = true, MessageAlert = "刪除失敗!" + Environment.NewLine + e.ToString() });
             }
+        }
+
+        /// <summary>
+        /// 查詢條件頁
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult QueryCondition()
+        {
+            getCodeTypeDDL();     //取得下拉選單
+            
+            DT311_ACode Acode = new DT311_ACode();  //塞入已查詢過之條件
+
+            if (Session["QryCondition"] != null)
+                Acode = (DT311_ACode)Session["QryCondition"];
+
+            return PartialView("_QueryCondition", Acode);
+        }
+
+        /// <summary>
+        /// 取得查詢資料
+        /// </summary>
+        /// <param name="Acode">條件</param>
+        /// <returns></returns>
+        public IEnumerable<CodeData> getData(DT311_ACode Acode)
+        {
+            var codeDataQry = (from c in db.DT311_ACode.AsQueryable()
+                               select new
+                               {
+                                   CODE_TYPE_Name = c.CODE_TYPE == "D"
+                                       ? "請假事由"
+                                       : c.CODE_TYPE == "O"
+                                           ? "加班事由"
+                                           : c.CODE_TYPE == "R"
+                                               ? "出差事由"
+                                               : c.CODE_TYPE == "L"
+                                                   ? "出差地點"
+                                                   : c.CODE_TYPE == "A"
+                                                       ? "出國前往地區"
+                                                       : c.CODE_TYPE == "F"
+                                                           ? "未刷卡趕辦內容"
+                                                           : c.CODE_TYPE == "P" ? "公假/公出地點" : "",
+                                   c.CODE,
+                                   c.CODE_TYPE,
+                                   c.CODE_NAME,
+                                   c.CODE_SEQ
+                               }).OrderBy(x => x.CODE_TYPE).ThenBy(d => d.CODE_SEQ.Value).ToList()
+                                .Select(x => new CodeData()
+                                {
+                                    Code_Type = x.CODE_TYPE,
+                                    Code_Type_Name = x.CODE_TYPE_Name,
+                                    Code = x.CODE,
+                                    Code_Name = x.CODE_NAME,
+                                    Code_Seq = x.CODE_SEQ
+                                });
+
+            if (Acode != null)
+            {
+                if (!string.IsNullOrEmpty(Acode.CODE_TYPE) && Acode.CODE_TYPE.Length > 0)
+                    codeDataQry = codeDataQry.AsQueryable().Where(x => x.Code_Type.Equals(Acode.CODE_TYPE));
+                if (!string.IsNullOrEmpty(Acode.CODE) && Acode.CODE.Length > 0)
+                    codeDataQry = codeDataQry.AsQueryable().Where(x => x.Code.Equals(Acode.CODE));
+                if (!string.IsNullOrEmpty(Acode.CODE_NAME) && Acode.CODE_NAME.Length > 0)
+                    codeDataQry = codeDataQry.AsQueryable().Where(x => x.Code_Name.Contains(Acode.CODE_NAME));
+            }
+
+            return codeDataQry;
         }
     }
 }

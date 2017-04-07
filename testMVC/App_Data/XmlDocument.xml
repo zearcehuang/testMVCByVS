@@ -492,7 +492,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:testMVC.Controllers.CodeDataController.QueryWebGrid">
+        <member name="M:testMVC.Controllers.CodeDataController.QueryWebGrid(testMVC.Models.DT311_ACode)">
             <summary>
             GET: CodeData/QueryWebGrid
             </summary>
@@ -529,6 +529,12 @@
         <member name="M:testMVC.Controllers.CodeDataController.Delete(System.String,System.String)">
             <summary>
             刪除
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:testMVC.Controllers.CodeDataController.QueryCondition">
+            <summary>
+            查詢條件頁
             </summary>
             <returns></returns>
         </member>

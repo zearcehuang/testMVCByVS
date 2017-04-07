@@ -1,0 +1,65 @@
+﻿@model testMVC.Models.DT311_ACode
+
+@{
+    ViewBag.Title = "查詢";
+}
+
+<script>
+    $(function () {
+        $('#btnQry').click(function () {
+            $('#OpenDilog').dialog('close');
+        });
+    });
+
+    function ClearScreen() {
+        $('input[type=text]', $('#OpenDilog')).val('');
+        $('#CODE_TYPE').get(0).selectedIndex = 0;
+        return false;
+    }
+</script>
+
+@using (Html.BeginForm("QueryWebGrid", "CodeData",FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>查詢條件</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table class="table table-striped table-hover">
+            <tbody>
+                <tr>
+                    <td style="white-space: nowrap; width: 1%;">
+                        @Html.LabelFor(model => model.CODE_TYPE, new { @class = "control-label col-md-2" })
+                    </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.CODE_TYPE, (SelectList)ViewBag.lstCodeType, "請選擇", new { @class = "form-control", style = "width:200px;" })
+                        @Html.ValidationMessageFor(model => model.CODE_TYPE, "", new { @class = "text-danger" })
+                    </td>
+                    <td style="white-space: nowrap; width: 1%;">
+                        @Html.LabelFor(model => model.CODE, new { @class = "control-label col-md-2" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.CODE, new { htmlAttributes = new { @class = "form-control", style = "width:60px", maxlength = "2" } })
+                        @Html.ValidationMessageFor(model => model.CODE, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td style="white-space: nowrap; width: 1%;">
+                        @Html.LabelFor(model => model.CODE_NAME, new { @class = "control-label col-md-2" })
+                    </td>
+                    <td colspan="3">
+                        @Html.EditorFor(model => model.CODE_NAME, new { htmlAttributes = new { @class = "form-control", maxlength = "20" } })
+                        @Html.ValidationMessageFor(model => model.CODE_NAME, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: center">
+                        <input type="submit" value="清除" class="btn btn-warning" id="btnClear" onclick="return ClearScreen();" />
+                        <input type="submit" value="查詢" class="btn btn-success"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
