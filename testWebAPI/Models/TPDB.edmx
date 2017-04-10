@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TPDBtestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DT311_ACode">
+          <Key>
+            <PropertyRef Name="CODE_TYPE" />
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE_TYPE" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="CODE" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="CODE_NAME" Type="nvarchar" MaxLength="30" />
+          <Property Name="CODE_SEQ" Type="int" />
+        </EntityType>
+        <EntityType Name="DT311_AStaffType">
+          <Key>
+            <PropertyRef Name="STAFF_TYPE" />
+          </Key>
+          <Property Name="STAFF_TYPE" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="STAFF_TYPE_NAME" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="DEFAULT_ATT_GROUP" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="STAFF_TYPE_SEQ" Type="int" Nullable="false" />
+          <Property Name="YN_A01" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="YN_A02" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="YN_A03" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="YN_A04" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="YN_A05" Type="nchar" MaxLength="1" />
+          <Property Name="YN_A06" Type="nchar" MaxLength="1" />
+          <Property Name="YN_A07" Type="nchar" MaxLength="1" />
+          <Property Name="YN_SALARY" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DT311_ATitle">
+          <Key>
+            <PropertyRef Name="TITLE_CODE" />
+          </Key>
+          <Property Name="TITLE_CODE" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="TITLE_NAME" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TITLE_SEQ" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TPDBtestModelStoreContainer">
+          <EntitySet Name="DT311_ACode" EntityType="Self.DT311_ACode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DT311_AStaffType" EntityType="Self.DT311_AStaffType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DT311_ATitle" EntityType="Self.DT311_ATitle" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TPDBtestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DT311_ACode">
+          <Key>
+            <PropertyRef Name="CODE_TYPE" />
+            <PropertyRef Name="CODE" />
+          </Key>
+          <Property Name="CODE_TYPE" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="CODE" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CODE_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="CODE_SEQ" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DT311_AStaffType">
+          <Key>
+            <PropertyRef Name="STAFF_TYPE" />
+          </Key>
+          <Property Name="STAFF_TYPE" Type="String" MaxLength="2" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="STAFF_TYPE_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DEFAULT_ATT_GROUP" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="STAFF_TYPE_SEQ" Type="Int32" Nullable="false" />
+          <Property Name="YN_A01" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="YN_A02" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="YN_A03" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="YN_A04" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="YN_A05" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="YN_A06" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="YN_A07" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="YN_SALARY" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DT311_ATitle">
+          <Key>
+            <PropertyRef Name="TITLE_CODE" />
+          </Key>
+          <Property Name="TITLE_CODE" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TITLE_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TITLE_SEQ" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TPDBtestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DT311_ACode" EntityType="Self.DT311_ACode" />
+          <EntitySet Name="DT311_AStaffType" EntityType="Self.DT311_AStaffType" />
+          <EntitySet Name="DT311_ATitle" EntityType="Self.DT311_ATitle" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TPDBtestModelStoreContainer" CdmEntityContainer="TPDBtestEntities">
+          <EntitySetMapping Name="DT311_ACode">
+            <EntityTypeMapping TypeName="TPDBtestModel.DT311_ACode">
+              <MappingFragment StoreEntitySet="DT311_ACode">
+                <ScalarProperty Name="CODE_TYPE" ColumnName="CODE_TYPE" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="CODE_NAME" ColumnName="CODE_NAME" />
+                <ScalarProperty Name="CODE_SEQ" ColumnName="CODE_SEQ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DT311_AStaffType">
+            <EntityTypeMapping TypeName="TPDBtestModel.DT311_AStaffType">
+              <MappingFragment StoreEntitySet="DT311_AStaffType">
+                <ScalarProperty Name="STAFF_TYPE" ColumnName="STAFF_TYPE" />
+                <ScalarProperty Name="STAFF_TYPE_NAME" ColumnName="STAFF_TYPE_NAME" />
+                <ScalarProperty Name="DEFAULT_ATT_GROUP" ColumnName="DEFAULT_ATT_GROUP" />
+                <ScalarProperty Name="STAFF_TYPE_SEQ" ColumnName="STAFF_TYPE_SEQ" />
+                <ScalarProperty Name="YN_A01" ColumnName="YN_A01" />
+                <ScalarProperty Name="YN_A02" ColumnName="YN_A02" />
+                <ScalarProperty Name="YN_A03" ColumnName="YN_A03" />
+                <ScalarProperty Name="YN_A04" ColumnName="YN_A04" />
+                <ScalarProperty Name="YN_A05" ColumnName="YN_A05" />
+                <ScalarProperty Name="YN_A06" ColumnName="YN_A06" />
+                <ScalarProperty Name="YN_A07" ColumnName="YN_A07" />
+                <ScalarProperty Name="YN_SALARY" ColumnName="YN_SALARY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DT311_ATitle">
+            <EntityTypeMapping TypeName="TPDBtestModel.DT311_ATitle">
+              <MappingFragment StoreEntitySet="DT311_ATitle">
+                <ScalarProperty Name="TITLE_CODE" ColumnName="TITLE_CODE" />
+                <ScalarProperty Name="TITLE_NAME" ColumnName="TITLE_NAME" />
+                <ScalarProperty Name="TITLE_SEQ" ColumnName="TITLE_SEQ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

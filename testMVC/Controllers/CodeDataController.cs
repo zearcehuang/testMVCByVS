@@ -14,6 +14,7 @@ namespace testMVC.Controllers
 
         private TPDBtestEntities db = new TPDBtestEntities();
         /// <summary>
+        /// 測試回傳Entity全部查詢結果
         /// GET: CodeData/Random
         /// </summary>
         /// <returns></returns>
@@ -23,6 +24,7 @@ namespace testMVC.Controllers
         }
 
         /// <summary>
+        /// 查詢結果
         /// GET: CodeData/QueryWebGrid
         /// </summary>
         /// <returns></returns>
@@ -78,9 +80,9 @@ namespace testMVC.Controllers
         /// <summary>
         /// 修改頁儲存
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="codeType"></param>
-        /// <param name="Acode"></param>
+        /// <param name="id">代碼</param>
+        /// <param name="codeType">代碼類別</param>
+        /// <param name="Acode">DT311_ACode代碼物件</param>
         /// <returns></returns>
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]

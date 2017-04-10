@@ -488,12 +488,14 @@
         </member>
         <member name="M:testMVC.Controllers.CodeDataController.Random">
             <summary>
+            測試回傳Entity全部查詢結果
             GET: CodeData/Random
             </summary>
             <returns></returns>
         </member>
         <member name="M:testMVC.Controllers.CodeDataController.QueryWebGrid(testMVC.Models.DT311_ACode)">
             <summary>
+            查詢結果
             GET: CodeData/QueryWebGrid
             </summary>
             <returns></returns>
@@ -506,6 +508,15 @@
             </summary>
             <param name="id"></param>
             <param name="codeType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:testMVC.Controllers.CodeDataController.Edit(System.String,System.String,testMVC.Models.DT311_ACode)">
+            <summary>
+            修改頁儲存
+            </summary>
+            <param name="id">代碼</param>
+            <param name="codeType">代碼類別</param>
+            <param name="Acode">DT311_ACode代碼物件</param>
             <returns></returns>
         </member>
         <member name="M:testMVC.Controllers.CodeDataController.AddCode">
@@ -536,6 +547,13 @@
             <summary>
             查詢條件頁
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:testMVC.Controllers.CodeDataController.getData(testMVC.Models.DT311_ACode)">
+            <summary>
+            取得查詢資料
+            </summary>
+            <param name="Acode">條件</param>
             <returns></returns>
         </member>
         <member name="T:testMVC.Controllers.ValuesController">
