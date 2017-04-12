@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>App_Data\XmlDocument.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -210,6 +211,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\API\CodeDataController.cs" />
+    <Compile Include="Controllers\API\testCodeController.cs" />
+    <Compile Include="Controllers\API\testController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,6 +229,7 @@
     </Compile>
     <Compile Include="Models\PartialClass\DT311_ACode_Partial.cs" />
     <Compile Include="Models\Repositorys\DT311_ACode_Repository.cs" />
+    <Compile Include="Models\Repositorys\IDT311_ACode_Repository.cs" />
     <Compile Include="Models\TPDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

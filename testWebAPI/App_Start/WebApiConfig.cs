@@ -14,7 +14,6 @@ namespace testWebAPI
             builder.EntitySet<DT311_ACode>("CodeData");
             config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
-            
             // Web API 路由
             config.MapHttpAttributeRoutes();
 
@@ -23,6 +22,12 @@ namespace testWebAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "CodeDataApi",
+            //    routeTemplate: "api/{controller}/{action}/{CODE_TYPE}/{CODE}",
+            //    defaults: new { CODE_TYPE = RouteParameter.Optional, CODE = RouteParameter.Optional }
+            //);
         }
     }
 }

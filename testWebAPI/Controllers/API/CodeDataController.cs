@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -20,23 +20,22 @@ namespace testWebAPI.Controllers.API
     */
     public class CodeDataController : ODataController
     {
-        private DT311_ACode_Repository _codeDataRepository;
+        private TPDBtestEntities db = new TPDBtestEntities();
+        private DT311_ACode_Repository _codeDataRepository = new DT311_ACode_Repository();
 
-        CodeDataController()
+        // GET: odata/CodeData
+        public IQueryable<DT311_ACode> GetCodeData()
         {
-            _codeDataRepository=new DT311_ACode_Repository();
-        }
-
-
-        public IEnumerable<DT311_ACode> GetCode()
-        {
+            //return db.DT311_ACode;
             return _codeDataRepository.GetCodeData();
         }
 
-        [Route("CodeData/Edit/{codetype}/{id}")]
-        public DT311_ACode GetItem(string CODE_TYPE, string CODE)
+        // GET: odata/CodeData(5)
+        [EnableQuery]
+        
+        public IQueryable<DT311_ACode> GetItem(string CODE_TYPE, string CODE)
         {
-            DT311_ACode Acode = _codeDataRepository.GetByKey(CODE_TYPE, CODE);
+            IQueryable<DT311_ACode> Acode = _codeDataRepository.GetByKey(CODE_TYPE, CODE);
             if (Acode == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
