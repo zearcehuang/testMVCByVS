@@ -2,7 +2,7 @@
 
 namespace testWebAPI.Models.Repositorys
 {
-    interface IDT311_ACode_Repository
+    public interface IDT311_ACode_Repository
     {
         IQueryable<DT311_ACode> GetCodeData();
         IQueryable<DT311_ACode> GetByKey(string CODE_TYPE = "", string CODE = "");

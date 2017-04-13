@@ -16,13 +16,23 @@ namespace testWebAPI.Controllers.API
         //private DT311_ACode_Repository _codeDataRepository;
         private IDT311_ACode_Repository _codeDataRepository;
 
+        //使用autofac DI設定
+        //testCodeController()
+        //{
+        //    _codeDataRepository = new DT311_ACode_Repository();
+        //}
 
-        testCodeController()
+        public testCodeController(IDT311_ACode_Repository r)
         {
-            _codeDataRepository = new DT311_ACode_Repository();
+            this._codeDataRepository = r;       
         }
 
+
         // GET: api/testCode
+        /// <summary>
+        /// 全部查詢結果
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<DT311_ACode> GetAll()
         {
             //return db.DT311_ACode;
@@ -30,6 +40,12 @@ namespace testWebAPI.Controllers.API
         }
 
         // GET: api/testCode/5
+        /// <summary>
+        /// 單筆查詢結果
+        /// </summary>
+        /// <param name="CODE_TYPE"></param>
+        /// <param name="CODE"></param>
+        /// <returns></returns>
         [Route("api/testCode/{CODE_TYPE}/{CODE}")]
         [ResponseType(typeof(DT311_ACode))]
         public IHttpActionResult GetItem(string CODE_TYPE, string CODE)
@@ -52,6 +68,11 @@ namespace testWebAPI.Controllers.API
         }
 
         // GET: api/testCode/5
+        /// <summary>
+        /// 單代碼類別查詢結果
+        /// </summary>
+        /// <param name="CODE_TYPE"></param>
+        /// <returns></returns>
         [Route("api/testCode/{CODE_TYPE}")]
         [ResponseType(typeof(DT311_ACode))]
         public IHttpActionResult GetItem(string CODE_TYPE)
@@ -67,20 +88,36 @@ namespace testWebAPI.Controllers.API
         }
 
         // PUT: api/testCode/5
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="CODE_TYPE"></param>
+        /// <param name="CODE"></param>
+        /// <param name="dT311_ACode"></param>
+        /// <returns></returns>
+        [Route("api/testCode/{CODE_TYPE}/{CODE}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutDT311_ACode(string id, DT311_ACode dT311_ACode)
+        public IHttpActionResult PutDT311_ACode(string CODE_TYPE, string CODE, DT311_ACode dT311_ACode)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != dT311_ACode.CODE_TYPE)
+            if (CODE_TYPE != dT311_ACode.CODE_TYPE && CODE != dT311_ACode.CODE)
             {
                 return BadRequest();
             }
 
-            db.Entry(dT311_ACode).State = EntityState.Modified;
+            DT311_ACode _updateACode = _codeDataRepository.GetByKey(CODE_TYPE, CODE).FirstOrDefault();
+
+            if (_updateACode != null)
+            {
+                _updateACode.CODE_NAME = dT311_ACode.CODE_NAME;
+                _updateACode.CODE_SEQ = dT311_ACode.CODE_SEQ;
+            }
+
+            db.Entry(_updateACode).State = EntityState.Modified;
 
             try
             {
@@ -88,7 +125,7 @@ namespace testWebAPI.Controllers.API
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DT311_ACodeExists(id))
+                if (!DT311_ACodeExists(CODE_TYPE, CODE))
                 {
                     return NotFound();
                 }
@@ -118,7 +155,7 @@ namespace testWebAPI.Controllers.API
             }
             catch (DbUpdateException)
             {
-                if (DT311_ACodeExists(dT311_ACode.CODE_TYPE))
+                if (DT311_ACodeExists(dT311_ACode.CODE_TYPE, dT311_ACode.CODE))
                 {
                     return Conflict();
                 }
@@ -128,7 +165,7 @@ namespace testWebAPI.Controllers.API
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = dT311_ACode.CODE_TYPE }, dT311_ACode);
+            return CreatedAtRoute("DefaultApi", new { CODE_TYPE = dT311_ACode.CODE_TYPE, CODE = dT311_ACode.CODE }, dT311_ACode);
         }
 
         // DELETE: api/testCode/5
@@ -147,6 +184,10 @@ namespace testWebAPI.Controllers.API
             return Ok(dT311_ACode);
         }
 
+        /// <summary>
+        /// 釋放資源
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -156,9 +197,17 @@ namespace testWebAPI.Controllers.API
             base.Dispose(disposing);
         }
 
-        private bool DT311_ACodeExists(string id)
+        /// <summary>
+        /// 資料是否存在
+        /// </summary>
+        /// <param name="CODE_TYPE">代碼類別</param>
+        /// <param name="CODE">代碼</param>
+        /// <returns></returns>
+        private bool DT311_ACodeExists(string CODE_TYPE, string CODE)
         {
-            return db.DT311_ACode.Count(e => e.CODE_TYPE == id) > 0;
+            //return db.DT311_ACode.Count(e => e.CODE_TYPE == id) > 0;
+
+            return _codeDataRepository.GetByKey(CODE_TYPE, CODE).Any();
         }
     }
 }
