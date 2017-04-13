@@ -13,7 +13,6 @@ namespace testWebAPI.Controllers.API
     public class testCodeController : ApiController
     {
         private TPDBtestEntities db = new TPDBtestEntities();
-        //private DT311_ACode_Repository _codeDataRepository;
         private IDT311_ACode_Repository _codeDataRepository;
 
         //使用autofac DI設定
@@ -24,7 +23,7 @@ namespace testWebAPI.Controllers.API
 
         public testCodeController(IDT311_ACode_Repository r)
         {
-            this._codeDataRepository = r;       
+            this._codeDataRepository = r;
         }
 
 
