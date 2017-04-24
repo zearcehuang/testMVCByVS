@@ -17,23 +17,48 @@
 
 <script>
     $(function () {
+        var datepicker = $.fn.datepicker.noConflict();      //解決jquery ui與bootstrap datepicker衝突
+
         // This will make every element with the class "date-picker" into a DatePicker element
-        $('.date-picker').datepicker();
+        $('.date-picker').datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+        
+        $.fn.bootstrapDP = datepicker;        
+
+        $('.input-group.date').bootstrapDP({
+            format: "twy/mm/dd",
+            autoclose: true,
+            todayBtn: true,
+            todayHighlight: true,
+            clearBtn: true,
+            calendarWeeks: true,
+            todayHighlight: true
+        });
     })
 </script>
 @section scripts
 {
     <!-- My97 Datepicker -->
     <script type="text/javascript" src="@Url.Content("~/Scripts/WdatePicker/WdatePicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/bootstrap-datepicker-1.6.4/js/bootstrap-datepicker.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/bootstrap-datepicker-1.6.4/css/bootstrap-datepicker3.standalone.css")">
 }
 
 @using (Html.BeginForm("CalDate", "Home", FormMethod.Get))
 {
-    <table>
+    <table class="table table-striped table-hover ">
         <tbody>
             <tr><td>@Html.TextBox("txtCalDate", "", new { @class = "date-picker" })</td></tr>
             <tr><td>@Html.TextBox("txtCalDate2", "", new { @class = "Wdate", onclick = "WdatePicker({dateFmt:'yyy/MM/dd'});", onfocus = "WdatePicker({dateFmt:'yyyMMdd'});" })</td></tr>
             <tr><td>@Html.TextBox("txtCalDate3", "", new { @class = "Wdate", onclick = "WdatePicker({dateFmt:'yyy/MM/dd HH:mm:ss'});", onfocus = "WdatePicker({dateFmt:'yyyMMdd HH:mm:ss'});" })</td></tr>
+            <tr>
+                <td>
+                    <div class="input-group date">
+                        @Html.TextBox("txtCalDate4", "", new { @class = "form-control" })<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </td>
+            </tr>
             <tr><td><input type="submit" value="查詢" class="btn btn-success" /></td></tr>
         </tbody>
     </table>
