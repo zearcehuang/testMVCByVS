@@ -30,7 +30,7 @@ namespace testWebAPI.Models.Repositorys
         /// §R°£
         /// </summary>
         /// <param name="Acode"></param>
-        void Del(DT311_ACode Acode);
+        void Del(IQueryable<DT311_ACode> Acode);
         /// <summary>
         /// ÄÀ©ñ¸ê·½
         /// </summary>

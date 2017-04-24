@@ -1,0 +1,83 @@
+﻿@using WebGridMvc
+
+@{
+    ViewBag.Title = "日期查詢";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .column1Width {
+        width: 30%;
+    }
+
+    .column3Width {
+        width: 50%;
+    }
+</style>
+
+<script>
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+</script>
+@section scripts
+{
+    <!-- My97 Datepicker -->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/WdatePicker/WdatePicker.js")"></script>
+}
+
+@using (Html.BeginForm("CalDate", "Home", FormMethod.Get))
+{
+    <table>
+        <tbody>
+            <tr><td>@Html.TextBox("txtCalDate", "", new { @class = "date-picker" })</td></tr>
+            <tr><td>@Html.TextBox("txtCalDate2", "", new { @class = "Wdate", onclick = "WdatePicker({dateFmt:'yyy/MM/dd'});", onfocus = "WdatePicker({dateFmt:'yyyMMdd'});" })</td></tr>
+            <tr><td>@Html.TextBox("txtCalDate3", "", new { @class = "Wdate", onclick = "WdatePicker({dateFmt:'yyy/MM/dd HH:mm:ss'});", onfocus = "WdatePicker({dateFmt:'yyyMMdd HH:mm:ss'});" })</td></tr>
+            <tr><td><input type="submit" value="查詢" class="btn btn-success" /></td></tr>
+        </tbody>
+    </table>
+}
+
+<div id="gridContent">
+    @if (Model != null && Model.Rows.Count > 0)
+    {
+        <table class="table table-striped table-hover ">
+            <thead><tr><td>流水號</td><td>計算日期</td></tr></thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in Model.Rows)
+                {
+                    <tr>
+                        <td>@row["serno"].ToString().Trim()</td>
+                        <td>@row["calDate"].ToString().Trim()</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }
+    @*@{
+            int firstRecord = (grid.PageIndex * grid.RowsPerPage) + 1;
+            int lastRecord = (grid.PageIndex * grid.RowsPerPage) + grid.Rows.Count();
+        }
+
+        @{
+            var html = grid.GetHtml(tableStyle: "table table-striped table-hover",
+                columns: grid.Columns(
+                     grid.Column(columnName: "serno", header: "流水號", style: "column1Width")
+                    , grid.Column(columnName: "dateCal", header: "計算日期")
+                    ), mode: WebGridPagerModes.All,
+                numericLinksCount: 20,
+                firstText: "首頁",
+                previousText: "上頁",
+                nextText: "下頁",
+                lastText: "頁尾").ToString();
+
+            var temp = "<tfoot><tr><td style='color: black; text-align:center' colspan='4'>第 " + firstRecord + " 筆到第 " + lastRecord + " 筆，共 " + grid.TotalRowCount + "筆 </td></td><td";
+            html = System.Text.RegularExpressions.Regex.Replace(html, "<tfoot>\\s*<tr >\\s*<td", temp);
+        }
+
+        @MvcHtmlString.Create(html)*@
+
+</div>

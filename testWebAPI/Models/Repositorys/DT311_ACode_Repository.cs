@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace testWebAPI.Models.Repositorys
@@ -33,17 +34,39 @@ namespace testWebAPI.Models.Repositorys
 
         public void Create(DT311_ACode Acode)
         {
-            db.DT311_ACode.Add(Acode);
-            db.SaveChanges();
+            try
+            {
+                db.DT311_ACode.Add(Acode);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public void Edit(DT311_ACode Acode)
         {
-            db.Entry(Acode).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                DT311_ACode _updateACode = GetByKey(Acode.CODE_TYPE, Acode.CODE).FirstOrDefault();
+                if (_updateACode != null)
+                {
+                    _updateACode.CODE_NAME = Acode.CODE_NAME;
+                    _updateACode.CODE_SEQ = Acode.CODE_SEQ;
+                    db.Entry(Acode).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        public void Del(DT311_ACode Acode)
+        public void Del(IQueryable<DT311_ACode> Acode)
         {
             db.Entry(Acode).State = EntityState.Deleted;
             db.SaveChanges();

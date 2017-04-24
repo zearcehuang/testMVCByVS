@@ -13,6 +13,8 @@ namespace testMVC.Controllers
     {
 
         private TPDBtestEntities db = new TPDBtestEntities();
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 測試回傳Entity全部查詢結果
         /// GET: CodeData/Random
@@ -34,7 +36,15 @@ namespace testMVC.Controllers
             Session["QryCondition"] = Acode;        //暫存查詢條件
 
             List<CodeData> lst = new List<CodeData>();        //為了接收自定查詢欄位用，使用一個model接收然後在前端呈現
+            if (codeDataQry.Any()) {
+                logger.Error("資料查詢完成");
+            }
+            else
+                logger.Error("查無資料");
+
             lst.AddRange(codeDataQry);
+
+            //logger.Error("test");
 
             return View("QueryWebGrid", lst);
             //return View(db.DT311_ACode.ToList());     //測試回傳整個ETF物件用

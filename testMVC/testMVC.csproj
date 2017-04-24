@@ -57,6 +57,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -429,10 +433,38 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\WdatePicker\calendar.js" />
+    <Content Include="Scripts\WdatePicker\lang\en.js" />
+    <Content Include="Scripts\WdatePicker\lang\zh-cn.js" />
+    <Content Include="Scripts\WdatePicker\lang\zh-tw.js" />
+    <Content Include="Scripts\WdatePicker\skin\blueFresh\bg.jpg" />
+    <Content Include="Scripts\WdatePicker\skin\blueFresh\datepicker.css" />
+    <Content Include="Scripts\WdatePicker\skin\blueFresh\img.gif" />
+    <Content Include="Scripts\WdatePicker\skin\datePicker.gif" />
+    <Content Include="Scripts\WdatePicker\skin\default\bg.jpg" />
+    <Content Include="Scripts\WdatePicker\skin\default\datepicker.css" />
+    <Content Include="Scripts\WdatePicker\skin\default\img.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\datepicker.css" />
+    <Content Include="Scripts\WdatePicker\skin\ext\dateselect.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\glass-bg.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\hd-sprite.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\img.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\left-btn.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\left-btn2.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\right-btn.gif" />
+    <Content Include="Scripts\WdatePicker\skin\ext\right-btn2.gif" />
+    <Content Include="Scripts\WdatePicker\skin\WdatePicker.css" />
+    <Content Include="Scripts\WdatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Scripts\WdatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Scripts\WdatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Scripts\WdatePicker\Source-calendar-version.js" />
+    <Content Include="Scripts\WdatePicker\WdatePicker.js" />
     <Content Include="Scripts\webGrid.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="testbootstrap.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -456,6 +488,7 @@
     <Content Include="Views\CodeData\_Edit.cshtml" />
     <Content Include="Views\CodeData\_AddCode.cshtml" />
     <Content Include="Views\CodeData\_QueryCondition.cshtml" />
+    <Content Include="Views\Home\CalDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

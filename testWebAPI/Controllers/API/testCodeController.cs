@@ -1,4 +1,4 @@
-﻿using System.Data.Entity;
+﻿using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -58,7 +58,7 @@ namespace testWebAPI.Controllers.API
             //return Ok(dT311_ACode);
             IQueryable<DT311_ACode> Acode = _codeDataRepository.GetByKey(CODE_TYPE, CODE);
 
-            if (Acode == null)
+            if (!Acode.Any())
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
@@ -78,7 +78,7 @@ namespace testWebAPI.Controllers.API
         {
             IQueryable<DT311_ACode> Acode = _codeDataRepository.GetByKey(CODE_TYPE);
 
-            if (Acode == null)
+            if (!Acode.Any())
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
@@ -108,19 +108,9 @@ namespace testWebAPI.Controllers.API
                 return BadRequest();
             }
 
-            DT311_ACode _updateACode = _codeDataRepository.GetByKey(CODE_TYPE, CODE).FirstOrDefault();
-
-            if (_updateACode != null)
-            {
-                _updateACode.CODE_NAME = dT311_ACode.CODE_NAME;
-                _updateACode.CODE_SEQ = dT311_ACode.CODE_SEQ;
-            }
-
-            db.Entry(_updateACode).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
+                _codeDataRepository.Edit(dT311_ACode);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -146,11 +136,9 @@ namespace testWebAPI.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            db.DT311_ACode.Add(dT311_ACode);
-
             try
             {
-                db.SaveChanges();
+                _codeDataRepository.Create(dT311_ACode);
             }
             catch (DbUpdateException)
             {
@@ -168,19 +156,31 @@ namespace testWebAPI.Controllers.API
         }
 
         // DELETE: api/testCode/5
+        [Route("api/testCode/{CODE_TYPE}/{CODE}")]
         [ResponseType(typeof(DT311_ACode))]
-        public IHttpActionResult DeleteDT311_ACode(string id)
+        public IHttpActionResult DeleteDT311_ACode(string CODE_TYPE, string CODE)
         {
-            DT311_ACode dT311_ACode = db.DT311_ACode.Find(id);
-            if (dT311_ACode == null)
+            IQueryable<DT311_ACode> _orgin = _codeDataRepository.GetByKey(CODE_TYPE, CODE);
+            if (_orgin.Any())
             {
                 return NotFound();
             }
 
-            db.DT311_ACode.Remove(dT311_ACode);
-            db.SaveChanges();
+            try
+            {
+                _codeDataRepository.Del(_orgin);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
-            return Ok(dT311_ACode);
+            return Ok(_orgin);
         }
 
         /// <summary>

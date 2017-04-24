@@ -150,3 +150,39 @@ private TPDBtestEntities db = new TPDBtestEntities();
         {
             return db.DT311_ACode.Count(e => e.CODE_TYPE == key) > 0;
         }
+		
+		
+		
+		private DT311_ACode_Repository _codeDataRepository;
+
+        CodeDataController()
+        {
+            _codeDataRepository = new DT311_ACode_Repository();
+        }
+
+        //[Route("CodeData/GetCode")]
+        // GET: odata/CodeData
+        [EnableQuery]
+        public IQueryable<DT311_ACode> GetCode()
+        {
+            return _codeDataRepository.GetCodeData();
+        }
+
+        //[Route("CodeData/GetItem/{codetype}/{id}")]
+        [Authorize(Roles = "Administrator"), EnableQuery]
+        public DT311_ACode GetItem(string CODE_TYPE, string CODE)
+        {
+            DT311_ACode Acode = _codeDataRepository.GetByKey(CODE_TYPE, CODE);
+            if (Acode == null)
+            {
+                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+            }
+
+            return Acode;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _codeDataRepository.Dispose();
+            base.Dispose(disposing);
+        }

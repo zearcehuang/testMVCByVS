@@ -550,5 +550,62 @@
             <param name="CODE_TYPE">代碼類別</param>
             <returns></returns>
         </member>
+        <member name="P:testWebAPI.Models.DT311_ACode.DT311_ACode_MetaData.CODE_TYPE">
+            <summary>
+            代碼類別
+            </summary>
+        </member>
+        <member name="P:testWebAPI.Models.DT311_ACode.DT311_ACode_MetaData.CODE">
+            <summary>
+            代碼
+            </summary>
+        </member>
+        <member name="P:testWebAPI.Models.DT311_ACode.DT311_ACode_MetaData.CODE_NAME">
+            <summary>
+            代碼名稱
+            </summary>
+        </member>
+        <member name="P:testWebAPI.Models.DT311_ACode.DT311_ACode_MetaData.CODE_SEQ">
+            <summary>
+            代碼順序
+            </summary>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.GetCodeData">
+            <summary>
+            ¥þ³¡¬d¸ßµ²ªG
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.GetByKey(System.String,System.String)">
+            <summary>
+            ³æµ§¬d¸ßµ²ªG
+            </summary>
+            <param name="CODE_TYPE">¥N½XÃþ§O</param>
+            <param name="CODE">¥N½X</param>
+            <returns></returns>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.Create(testWebAPI.Models.DT311_ACode)">
+            <summary>
+            ·s¼W
+            </summary>
+            <param name="Acode"></param>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.Edit(testWebAPI.Models.DT311_ACode)">
+            <summary>
+            ­×§ï
+            </summary>
+            <param name="Acode"></param>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.Del(System.Linq.IQueryable{testWebAPI.Models.DT311_ACode})">
+            <summary>
+            §R°£
+            </summary>
+            <param name="Acode"></param>
+        </member>
+        <member name="M:testWebAPI.Models.Repositorys.IDT311_ACode_Repository.Dispose">
+            <summary>
+            ÄÀ©ñ¸ê·½
+            </summary>
+        </member>
     </members>
 </doc>
